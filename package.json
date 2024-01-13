@@ -1,0 +1,34 @@
+{
+  "name": "geocores",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@stdlib/math-base-special-beta": "^0.0.6",
+    "apexcharts": "^3.36.3",
+    "axios": "^1.1.3",
+    "chroma-js": "^2.4.2",
+    "click-outside-vue3": "^4.0.1",
+    "compute-linspace": "^1.0.0",
+    "katex": "^0.13.24",
+    "lodash": "^4.17.21",
+    "mathjax-vue3": "^1.0.1",
+    "mathjs": "^11.5.0",
+    "pinia": "^2.0.23",
+    "sass": "^1.56.0",
+    "simple-statistics": "^7.8.0",
+    "vatex": "^0.1.0",
+    "vue": "^3.2.41",
+    "vue-router": "^4.1.5",
+    "vue3-apexcharts": "^1.4.1",
+    "vue3-charts": "^1.1.32",
+    "vuedraggable": "^4.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.1.2",
+    "vite": "^3.1.8"
+  }
+}

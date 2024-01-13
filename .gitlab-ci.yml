@@ -1,0 +1,38 @@
+stages:
+  - build
+  - deploy
+
+build_dist:
+  image: node:18
+  stage: build
+  only:
+    - main
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - npm i
+    - npm run build
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - dist
+
+deploy_frontend:
+  image: alpine:latest
+  stage: deploy
+  only:
+    - main
+  before_script:
+    - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $VM_IPADDRESS >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - ssh $SSH_USER@$VM_IPADDRESS "cd $BACKEND_ROOT && docker compose down && rm -rf frontend/dist"
+    - scp -r dist $SSH_USER@$VM_IPADDRESS:$BACKEND_ROOT/frontend/ || export FAILED=1
+    - ssh $SSH_USER@$VM_IPADDRESS "cd $BACKEND_ROOT && docker compose up -d"
+    - if [ "$FAILED" == 1 ]; then echo "File copy failed" && exit 1; fi
